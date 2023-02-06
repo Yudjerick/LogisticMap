@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ddb5016f6479447b4b8967aabc149d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathRenderer: {fileID: 1191953750}
+  pathCreator: {fileID: 1191953750}
 --- !u!1 &1509994821
 GameObject:
   m_ObjectHideFlags: 0

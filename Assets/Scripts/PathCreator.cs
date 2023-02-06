@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathRenderer : MonoBehaviour
+public class PathCreator : MonoBehaviour
 {
     public GameObject testPoint;
     
@@ -70,21 +70,26 @@ public class PathRenderer : MonoBehaviour
     
     void Update()
     {
-        if(_line == null)
-            return;
+        
         _multiplierX = transform.localScale.x / 2;
         _multiplierY = transform.localScale.y / 2;
         _lowLeftCorner = transform.position - (transform.right * _multiplierX + transform.up * _multiplierY);
-
+        if(_line == null)
+            return;
         Vector3[] lineRendererPositions = new Vector3[points.Count];
         for (int i = 0; i < points.Count; i++)
         {
-            lineRendererPositions[i] = points[i] * _multiplierX - new Vector2(1,1) *_multiplierX;//
+            lineRendererPositions[i] = CalculateLineRendererPosition(points[i]);
             //lineRendererPositions[i] = CalculateGlobalPoint(points[i]);
         }
 
         _lineRenderer.positionCount = points.Count;
         _lineRenderer.SetPositions(lineRendererPositions);
+    }
+
+    Vector3 CalculateLineRendererPosition(Vector2 point)
+    {
+        return new Vector2((point.x - 1) * _multiplierX, (point.y - 1) * _multiplierY);
     }
 
     Vector3 CalculateGlobalPoint(Vector2 point)

@@ -5,21 +5,21 @@ using UnityEngine.EventSystems;
 
 public class MouseDrawingInputSystem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler, IPointerExitHandler
 {
-    [SerializeField] private PathRenderer pathRenderer;
+    [SerializeField] private PathCreator pathCreator;
     private bool _isDrawing;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        pathRenderer.StartLine();
+        pathCreator.StartLine();
         _isDrawing = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        var point = pathRenderer.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
-        pathRenderer.points.Add(point);
+        var point = pathCreator.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
+        pathCreator.points.Add(point);
         _isDrawing = false;
-        pathRenderer.BakeLine();
+        pathCreator.BakeLine();
 
     }
 
@@ -27,8 +27,8 @@ public class MouseDrawingInputSystem : MonoBehaviour, IPointerDownHandler, IPoin
     {
         if (_isDrawing)
         {
-            var point = pathRenderer.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
-            pathRenderer.points.Add(point);
+            var point = pathCreator.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
+            pathCreator.points.Add(point);
         }
     }
 
