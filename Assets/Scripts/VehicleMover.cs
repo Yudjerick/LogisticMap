@@ -37,10 +37,6 @@ public class VehicleMover : MonoBehaviour
     public void SetPath(List<Vector2> path)
     {
         points = path.ToArray();
-        for (int i = 0; i < points.Length; i++)
-        {
-            points[i] = (points[i] - Vector2.one) * 0.5f;
-        }
     }
 
     public void GoToStartPosition()

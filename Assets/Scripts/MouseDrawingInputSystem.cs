@@ -10,17 +10,16 @@ public class MouseDrawingInputSystem : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        pathCreator.StartLine();
+        pathCreator.CreateLine();
         _isDrawing = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        var point = pathCreator.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
-        pathCreator.points.Add(point);
-        _isDrawing = false;
-        pathCreator.BakeLine();
-
+        if (_isDrawing)
+        {
+            FinishDrawing(eventData);
+        }
     }
 
     public void OnPointerMove(PointerEventData eventData)
@@ -28,12 +27,27 @@ public class MouseDrawingInputSystem : MonoBehaviour, IPointerDownHandler, IPoin
         if (_isDrawing)
         {
             var point = pathCreator.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
-            pathCreator.points.Add(point);
+            if (point.x != -0.0625f && point.y != 0f)
+            {
+                pathCreator.points.Add(point);
+            }
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if(_isDrawing)
+            FinishDrawing(eventData);
+    }
+
+    void FinishDrawing(PointerEventData eventData)
+    {
+        var point = pathCreator.CalculateLocalPoint(eventData.pointerCurrentRaycast.worldPosition);
+        if (point.x != -0.0625f && point.y != 0f)
+        {
+            pathCreator.points.Add(point);
+        }
         _isDrawing = false;
+        pathCreator.BakeLine();
     }
 }

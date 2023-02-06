@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class PathCreator : MonoBehaviour
 {
-    public GameObject testPoint;
-    
+    public static PathCreator PathCreatorSingleton;
     private LineRenderer _lineRenderer;
     public List<Vector2> points;
     [SerializeField] private int lineLayer;
@@ -22,10 +21,11 @@ public class PathCreator : MonoBehaviour
 
     private void Start()
     {
+        PathCreatorSingleton = this;
         _line = null;
     }
 
-    public void StartLine()
+    public void CreateLine()
     {
         _line = new GameObject("line")
         {
@@ -34,7 +34,8 @@ public class PathCreator : MonoBehaviour
             {
                 parent = gameObject.transform,
                 localPosition = Vector3.zero,
-                localRotation = Quaternion.Euler(Vector3.zero)
+                localRotation = Quaternion.Euler(Vector3.zero),
+                localScale = Vector3.one
             }
         };
 
@@ -70,38 +71,23 @@ public class PathCreator : MonoBehaviour
     
     void Update()
     {
-        
-        _multiplierX = transform.localScale.x / 2;
-        _multiplierY = transform.localScale.y / 2;
+        _multiplierX = transform.localScale.x;
+        _multiplierY = transform.localScale.y;
         _lowLeftCorner = transform.position - (transform.right * _multiplierX + transform.up * _multiplierY);
         if(_line == null)
             return;
         Vector3[] lineRendererPositions = new Vector3[points.Count];
         for (int i = 0; i < points.Count; i++)
         {
-            lineRendererPositions[i] = CalculateLineRendererPosition(points[i]);
-            //lineRendererPositions[i] = CalculateGlobalPoint(points[i]);
+            lineRendererPositions[i] = points[i];
         }
 
         _lineRenderer.positionCount = points.Count;
         _lineRenderer.SetPositions(lineRendererPositions);
     }
-
-    Vector3 CalculateLineRendererPosition(Vector2 point)
-    {
-        return new Vector2((point.x - 1) * _multiplierX, (point.y - 1) * _multiplierY);
-    }
-
-    Vector3 CalculateGlobalPoint(Vector2 point)
-    {
-        Vector3 globalPoint = _lowLeftCorner + (transform.right * (_multiplierX * point.x)) +
-                              (transform.up * (_multiplierY * point.y));
-        return globalPoint;
-    }
-    
     public Vector2 CalculateLocalPoint(Vector3 point)
     {
-        Vector3 r = point - _lowLeftCorner;
+        Vector3 r = point - transform.position;
         Vector2 localPoint = new Vector2(Vector3.Dot(r, transform.right)/_multiplierX, Vector3.Dot(r, transform.up)/_multiplierY);
         return localPoint;
     }
