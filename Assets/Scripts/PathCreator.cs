@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PathCreator : MonoBehaviour
 {
-    public static PathCreator PathCreatorSingleton;
     private LineRenderer _lineRenderer;
     public List<Vector2> points;
     [SerializeField] private int lineLayer;
@@ -21,7 +20,6 @@ public class PathCreator : MonoBehaviour
 
     private void Start()
     {
-        PathCreatorSingleton = this;
         _line = null;
     }
 
@@ -62,7 +60,7 @@ public class PathCreator : MonoBehaviour
             _lineRenderer.material.mainTextureScale = new Vector2(1/lineWidthMultiplier,1);
         }
 
-        var instantiate = Instantiate(truck,transform);
+        var instantiate = Instantiate(truck,_line.transform);
         var vehicleMover = instantiate.GetComponent<VehicleMover>();
         vehicleMover.SetPath(points);
         vehicleMover.GoToStartPosition();

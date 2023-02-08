@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 1191953747}
   - component: {fileID: 1191953752}
   - component: {fileID: 1191953750}
+  - component: {fileID: 1191953753}
   - component: {fileID: 1191953751}
   m_Layer: 0
   m_Name: Quad
@@ -492,7 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d30ded2795eb4f43a00fba4a6433917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPoint: {fileID: 0}
   points: []
   lineLayer: 1
   lineWidthMultiplier: 0.15
@@ -526,6 +526,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 1191953750}
+  pathDestroyer: {fileID: 1191953753}
+  erase: 0
+--- !u!114 &1191953753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191953745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14771e43f3519141a7eaeb06125195f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eraseRadius: 0.01
 --- !u!1 &1509994821
 GameObject:
   m_ObjectHideFlags: 0
